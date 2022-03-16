@@ -9,7 +9,7 @@ const unsplash = axios.create({
   params: { client_id: process.env.UNSPLASH_KEY, content_filter: 'high' }
 })
 
-const urlFormat = 'https://images.unsplash.com/photo-[*]&cs=tinysrgb&crop=entropy&fit=crop&fm=jpgq=80'
+const urlFormat = 'https://images.unsplash.com/photo-[*]cs=tinysrgb&crop=entropy&fit=crop&fm=jpgq=80'
 
 const cache = new EasyCache(60000 * 3)
 const bgCache = new EasyCache(60000 * 5)
@@ -32,7 +32,7 @@ class ImagesService {
       img = cached.value
     }
     const start = img.indexOf('-') + 1
-    const end = img.indexOf('&')
+    const end = img.indexOf('?') + 1
     const imgUri = urlFormat.replace('[*]', img.slice(start, end))
     const height = '&h=' + ((Math.ceil(Math.random() * 4) * 150) + 400)
     const width = '&w=' + ((Math.ceil(Math.random() * 4) * 150) + 400)
@@ -50,6 +50,24 @@ class ImagesService {
       img = cached.value
     }
     return img
+  }
+
+  async getEvent(query = '') {
+    const cached = cache.hasEntry(query)
+    let img
+    if (!cached) {
+      const res = await unsplash.get('random?query=' + query)
+      img = res.data.urls.full
+      cache.setEntry(query, img)
+    } else {
+      img = cached.value
+    }
+    const start = img.indexOf('-') + 1
+    const end = img.indexOf('?') + 1
+    const imgUri = urlFormat.replace('[*]', img.slice(start, end))
+    const height = '&h=900'
+    const width = '&w=1440'
+    return imgUri + height + width
   }
 }
 

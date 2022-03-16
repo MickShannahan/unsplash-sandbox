@@ -8,6 +8,7 @@ export class ImagesController extends BaseController {
       .get('/random', this.getRandom)
       .get('/keep', this.getKeep)
       .get('/background', this.getBackground)
+      .get('/event', this.getEvent)
   }
 
   async getRandom(req, res, next) {
@@ -27,7 +28,7 @@ export class ImagesController extends BaseController {
       const image = await imagesService.getKeep(query, req.query.quality)
       return res.send({ url: image })
     } catch (error) {
-
+      next(error)
     }
   }
 
@@ -38,7 +39,18 @@ export class ImagesController extends BaseController {
       const image = await imagesService.getBackground(query)
       return res.send(image)
     } catch (error) {
+      next(error)
+    }
+  }
 
+  async getEvent(req, res, next) {
+    try {
+      const categories = ['event', 'concert', 'rock concert', 'sports', 'digital']
+      const query = req.query.query !== undefined ? req.query.query : categories[Math.floor(Math.random() * categories.length)]
+      const image = await imagesService.getEvent(query)
+      return res.send({ url: image })
+    } catch (error) {
+      next(error)
     }
   }
 }
