@@ -23,7 +23,7 @@ export class ImagesController extends BaseController {
   categories = ['cat', 'forrest', 'trees', 'technology', 'coffee', 'architecture']
   async getKeep(req, res, next) {
     try {
-      const query = req.query?.query || this.categories[Math.floor(Math.random() * this.categories.length)]
+      const query = req.query.query ? req.query.query : this.categories[Math.floor(Math.random() * this.categories.length)]
       logger.log(query, req.query)
       const image = await imagesService.getKeep('random?query=' + query, req.query.quality)
       return res.send({ url: image })
