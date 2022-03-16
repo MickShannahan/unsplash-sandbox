@@ -12,6 +12,7 @@
   "author": "Boise Codeworks",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.0",
     "dotenv": "^10.0.0",
     "esm": "^3.2.25",
