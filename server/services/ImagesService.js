@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { EasyCache } from '../utils/EasyCache'
+import { logger } from '../utils/Logger'
 
 const unsplash = axios.create({
   baseURL: 'https://api.unsplash.com/photos/',
@@ -7,17 +8,18 @@ const unsplash = axios.create({
   params: { client_id: process.env.UNSPLASH_KEY }
 })
 
-const urlFormat = 'https://images.unsplash.com/photo-[*]&cs=tinysrgb&crop=entropy&fit=crop&fm=jpgq=80'
+const urlFormat = 'https://images.unsplash.com/photo-[*]&content_filter=high&cs=tinysrgb&crop=entropy&fit=crop&fm=jpgq=80'
 
-const cache = new EasyCache(60000 * 1.5)
+const cache = new EasyCache(60000 * 3)
 
 class ImagesService {
   async get(query = '') {
     const res = await unsplash.get(query)
+    logger.log(res.headers)
     return res.data
   }
 
-  async getKeep(query = '', quality = 'regular') {
+  async getKeep(query = '', quality = 'full') {
     const cached = cache.hasEntry(query)
     let img
     if (!cached) {

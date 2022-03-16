@@ -21,7 +21,7 @@ export class ImagesController extends BaseController {
   }
 
   async getKeep(req, res, next) {
-    const categories = ['cat', 'forrest', 'trees', 'technology', 'coffee', 'architecture']
+    const categories = ['cat', 'dog', 'animal', 'forrest', 'trees', 'nature', 'landscape', 'technology', 'travel', 'coffee', 'food', 'architecture']
     try {
       logger.log(req.query.query)
       const query = req.query.query !== undefined ? req.query.query : categories[Math.floor(Math.random() * categories.length)]
