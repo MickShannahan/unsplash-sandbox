@@ -1,8 +1,8 @@
+import { json } from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import { json } from 'body-parser'
-import { RegisterControllers, Paths } from '../Setup'
+import { Paths, RegisterControllers } from '../Setup'
 import { logger } from './utils/Logger'
 
 export default class Startup {
@@ -16,7 +16,7 @@ export default class Startup {
   }
 
   static configureCors(app) {
-    const allowedDomains = []
+    const allowedDomains = ['http://localhost']
     const corsOptions = {
       origin(origin, callback) {
         if (process.env.NODE_ENV === 'dev') {
