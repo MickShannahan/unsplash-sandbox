@@ -16,13 +16,13 @@ export default class Startup {
   }
 
   static configureCors(app) {
-    const allowedDomains = ['http://localhost:8080', 'http://localhost:8081', '*.github.io']
+    const allowedDomains = ['http://localhost:8080', 'http://localhost:8081', '.github.io']
     const corsOptions = {
       origin(origin, callback) {
         if (process.env.NODE_ENV === 'dev') {
           return callback(null, true)
         }
-        const originIsWhitelisted = allowedDomains.indexOf(origin) !== -1
+        const originIsWhitelisted = allowedDomains.findIndex(ad => origin.includes(ad)) !== -1
         callback(null, originIsWhitelisted)
       },
       credentials: true
