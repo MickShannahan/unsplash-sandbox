@@ -16,7 +16,7 @@ export default class Startup {
   }
 
   static configureCors(app) {
-    const allowedDomains = ['http://localhost']
+    const allowedDomains = ['http://localhost', '*']
     const corsOptions = {
       origin(origin, callback) {
         if (process.env.NODE_ENV === 'dev') {
