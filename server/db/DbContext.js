@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import { ValueSchema } from '../models/Value'
+import { VibeSchema } from '../models/Vibe'
 
 class DbContext {
-  Values = mongoose.model('Value', ValueSchema);
+  Vibes = mongoose.model('Vibe', VibeSchema)
 }
 
 export const dbContext = new DbContext()
