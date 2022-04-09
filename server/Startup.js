@@ -16,7 +16,7 @@ export default class Startup {
   }
 
   static configureCors(app) {
-    const allowedDomains = ['http://localhost:8080', 'http://localhost:8081']
+    const allowedDomains = ['http://localhost:8080', 'http://localhost:8081', '*.github.io']
     const corsOptions = {
       origin(origin, callback) {
         if (process.env.NODE_ENV === 'dev') {
