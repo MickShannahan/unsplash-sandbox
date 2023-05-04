@@ -22,7 +22,7 @@ export default class Startup {
         if (process.env.NODE_ENV === 'dev') {
           return callback(null, true)
         }
-        if(!origin) callback(null, true) // server to server
+        if(!origin) return callback(null, true) // server to server
         const originIsWhitelisted = allowedDomains.findIndex(ad => origin.includes(ad)) !== -1
         callback(null, originIsWhitelisted)
       },
