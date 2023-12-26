@@ -13,8 +13,7 @@ export class ImagesController extends BaseController {
 
   async getRandom(req, res, next) {
     try {
-      const query = req.query.query ? '?query=' + req.query.query : ''
-      const image = await imagesService.get('random' + query)
+      const image = await imagesService.get('random', req.query)
       return res.send(image)
     } catch (error) {
       next(error)

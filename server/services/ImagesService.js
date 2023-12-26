@@ -15,8 +15,9 @@ const cache = new EasyCache(60000 * 3)
 const bgCache = new EasyCache(60000 * 5)
 
 class ImagesService {
-  async get(query = '') {
-    const res = await unsplash.get(query)
+  async get(endpoint, query = {}) {
+    logger.log(query)
+    const res = await unsplash.get(endpoint, { params: query })
     logger.log(res.headers)
     return res.data
   }
