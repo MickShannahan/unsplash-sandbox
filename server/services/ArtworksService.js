@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { EasyCache } from '../utils/EasyCache.js'
 import { logger } from '../utils/Logger.js'
+
 const unsplash = axios.create({
   baseURL: 'https://api.unsplash.com',
   timeout: 5000,
@@ -37,7 +38,7 @@ class ArtworksService {
   async getCollection() {
     const cached = cache.hasEntry('collection')
     if (!cached) {
-      const { data: collection } = await unsplash.get('')
+      const { data: collection } = await unsplash.get(`collections/${collectionId}`)
       cache.setEntry('collection', collection)
       this.pieceCount = collection.total_photos
       return collection
