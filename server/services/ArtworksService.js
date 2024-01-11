@@ -2,12 +2,19 @@ import axios from 'axios'
 import { EasyCache } from '../utils/EasyCache.js'
 import { logger } from '../utils/Logger.js'
 const unsplash = axios.create({
-  baseURL: 'https://api.unsplash.com/collections/kWD2dMCwvy0',
+  baseURL: 'https://api.unsplash.com',
   timeout: 5000,
   params: { client_id: process.env.UNSPLASH_KEY }
 })
 
+const collectionId = 'kWD2dMCwvy0'
+
 class ArtworksService {
+  async getArtworkById(artId) {
+    const res = await unsplash.get(`photos/${artId}`)
+    let art = new Artwork(res.data)
+    return art
+  }
   pageShift = Math.round(Math.random() * 50)
   async getArtworks(query) {
     const page = parseInt(query.page) || 1
@@ -18,7 +25,7 @@ class ArtworksService {
     const pages = Math.ceil(collection.total_photos / count)
     logger.log(cached)
     if (!cached) {
-      const { data: artData } = await unsplash.get('photos', { params: { page: (this.pageShift + page) % pages, per_page: count } })
+      const { data: artData } = await unsplash.get(`collections/${collectionId}/photos`, { params: { page: (this.pageShift + page) % pages, per_page: count } })
       artworks = formatArtworks(artData)
       cache.setEntry(page, artData)
     } else {
